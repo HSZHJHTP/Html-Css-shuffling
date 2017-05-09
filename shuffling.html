@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			li {
+				list-style: none;
+			}
+			
+			#box {
+				width: 790px;
+				height: 340px;
+				margin: 50px auto;
+				box-shadow: 0 0 15px #FF0000;
+				border: 1px solid red;
+				position: relative;
+			}
+			
+			#imgUl li {
+				position: absolute;
+			}
+			
+			#iconUl {
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+			}
+			
+			#iconUl li {
+				width: 20px;
+				height: 20px;
+				border: 1px solid #666666;
+				margin-left: 5px;
+				font-size: 12px;
+				line-height: 20px;
+				text-align: center;
+				background-color: #ccc;
+				border-radius: 5px;
+				float: left;
+			}
+			
+			#iconUl .active {
+				background: #666666;
+				border: 1px solid #CCCCCC;
+				color: red;
+			}
+			
+			#left,
+			#right {
+				width: 100px;
+				height: 240px;
+				line-height: 340px;
+				text-align: center;
+				font-size: 120px;
+				color: gray;
+				text-shadow: 0 0 20px #666666;
+				position: absolute;
+			}
+			
+			#left {
+				left: 0px;
+			}
+			
+			#right {
+				right: 0px;
+			}
+		</style>
+		<script src="jquery.js"></script>
+		<script>
+			$(document).ready(function() {
+				var imgs = $("#imgUl li")
+				var icons = $("#iconUl li")
+				imgs.hide();
+				imgs.eq(0).show();
+				$("#left,#riight").hide();
+				var i = 0;
+
+				function selected() {
+					imgs.fadeOut(500);
+					imgs.eq(i).fadeIn(500);
+					icons.removeClass("active");
+					icons.eq(i).addClass("active");
+
+				}
+
+				function change() {
+					i++;
+					if(i == imgs.length) {
+						i = 0;
+					}
+					selected();
+				}
+				icons.click(function() {
+					i = $(this).index();
+					selected();
+					clearInterval(timer);
+					timer = setInterval(change, 2000);
+				})
+				$("#box").hover(
+					function() {
+						$(this).css("cursor","pointer")
+						$("#left,#right").show();
+						clearInterval(timer);
+					},
+					function() {
+						$("#left,#right").hide();
+						clearInterval(timer);
+						timer = setInterval(change, 2000);
+					}
+				)
+				$("#left a").click(function() {
+					i--;
+					if(i < 0) {
+						i = imgs.length - 1;
+					}
+					selected();
+				})
+				$("#right a").click(function() {
+					i++;
+					if(i > imgs.length - 1) {
+						i = 0;
+					}
+					selected();
+				})
+				var timer = setInterval(change, 2000);
+
+			})
+		</script>
+	</head>
+
+	<body>
+		<div id="box">
+			<ul id="imgUl">
+				<li><img src="jd/1.jpg" /> </li>
+				<li><img src="jd/2.jpg" /> </li>
+				<li><img src="jd/3.jpg" /> </li>
+				<li><img src="jd/4.jpg" /> </li>
+				<li><img src="jd/5.jpg" /> </li>
+			</ul>
+			<ul id="iconUl">
+				<li class="active">1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+
+			</ul>
+			<div id="left">
+				<a>&lsaquo;</a>
+			</div>
+			<div id="right">
+				<a>&rsaquo;</a>
+			</div>
+		</div>
+
+	</body>
+
+</html>
